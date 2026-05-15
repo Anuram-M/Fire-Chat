@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+option java_package = "com.ram.firechat";
+option java_multiple_files = true;
+
+
+message UserSettings {
+  string userName = 1;
+  int32 accessLevel = 2;
+  bool isLoggedIn = 3;
+}
