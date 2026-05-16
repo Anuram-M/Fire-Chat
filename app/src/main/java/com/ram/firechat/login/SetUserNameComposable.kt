@@ -83,16 +83,7 @@ fun SetUserNameComposable(navController: NavController) {
                     .fillMaxWidth()
                     .systemBarsPadding()
             ) {
-                Text(
-                    text = "Set Username",
-                    color = colors.textColor,
-                    fontFamily = firaFamily,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 20.dp)
-                )
+
             }
         }
     ) { innerPadding ->
@@ -138,6 +129,17 @@ fun SetUserNameComposable(navController: NavController) {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
+                Text(
+                    text = "SET USERNAME",
+                    color = colors.textColor,
+                    fontFamily = firaFamily,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(20.dp)
+                )
                 Card(
                     shape = CircleShape,
                     modifier = Modifier.border(
@@ -234,7 +236,7 @@ fun SetUserNameComposable(navController: NavController) {
                                 shape = CircleShape,
                                 modifier = Modifier
                                     .border(
-                                        width = if (item == selectedAvatar) 3.dp else 1.dp,
+                                        width = if (item == selectedAvatar) 4.dp else 1.dp,
                                         color = colors.textColor,
                                         shape = CircleShape
                                     )

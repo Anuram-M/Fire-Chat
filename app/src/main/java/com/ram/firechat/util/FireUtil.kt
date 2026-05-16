@@ -94,7 +94,6 @@ object FireUtil {
                     navController.navigate("set-username")
                 }
         }
-
     }
 
     fun updateUser(navController: NavController, avatarModel: AvatarModel, userName: String) {
@@ -281,11 +280,11 @@ object FireUtil {
                     "timeStamp" to FieldValue.serverTimestamp()
                 )
             ).addOnSuccessListener {
-                CoroutineScope(Dispatchers.IO).launch {
-                    val token = fetchUserFCMToken(receiverUserId)
-
-                    sendFCMNotification(context, text, userModels[1], token, chatId)
-                }
+//                CoroutineScope(Dispatchers.IO).launch {
+//                    val token = fetchUserFCMToken(receiverUserId)
+//
+//                    sendFCMNotification(context, text, userModels[1], token, chatId)
+//                }
 
                 FirebaseFirestore.getInstance()
                     .collection("chat")

@@ -1,6 +1,5 @@
 package com.ram.firechat.login
 
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -12,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedTextField
@@ -22,7 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,6 +30,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
@@ -39,14 +40,22 @@ import com.ram.firechat.ui.theme.firaFamily
 import com.ram.firechat.util.UXUtil
 import com.ram.firechat.util.FireUtil
 import com.ram.firechat.util.PreferenceUtil
+import com.ram.firechat.viewmodel.FireViewModel
 
 @Composable
-fun LoginComposable(modifier: Modifier, navController: NavHostController) {
-    var userName by remember {
+fun AuthComposable(
+    modifier: Modifier,
+    navController: NavHostController,
+    fireViewModel: FireViewModel
+) {
+    var userName by rememberSaveable {
         mutableStateOf("")
     }
-    var password by remember {
+    var password by rememberSaveable {
         mutableStateOf("")
+    }
+    var isLogin by rememberSaveable {
+        mutableStateOf(true)
     }
     val colors = UXUtil.getColors()
     val context = LocalContext.current.applicationContext
@@ -65,19 +74,7 @@ fun LoginComposable(modifier: Modifier, navController: NavHostController) {
                 .systemBarsPadding(),
             contentAlignment = Alignment.BottomCenter
         ) {
-            TextButton(onClick = {
-                userName = ""
-                password = ""
-                navController.navigate("signup") {
-                    popUpTo(0)
-                }
-            }) {
-                Text(
-                    text = "Don't have an account? Signup here",
-                    color = colors.textColor,
-                    fontSize = 15.sp
-                )
-            }
+
         }
         Box {
             Column(
@@ -89,7 +86,7 @@ fun LoginComposable(modifier: Modifier, navController: NavHostController) {
             ) {
 
                 Text(
-                    text = "LOGIN",
+                    text = if(isLogin) "LOGIN" else "SIGNUP",
                     fontFamily = firaFamily,
                     fontWeight = FontWeight.ExtraBold,
                     fontSize = 18.sp,
@@ -105,6 +102,9 @@ fun LoginComposable(modifier: Modifier, navController: NavHostController) {
                         .height(25.dp)
                 )
                 OutlinedTextField(
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Email
+                    ),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(10.dp),
@@ -115,7 +115,7 @@ fun LoginComposable(modifier: Modifier, navController: NavHostController) {
                     },
                     label = {
                         Text(
-                            text = "Username",
+                            text = "Email",
                             color = colors.textColor
                         )
                     },
@@ -125,7 +125,7 @@ fun LoginComposable(modifier: Modifier, navController: NavHostController) {
                     ),
                     placeholder = {
                         Text(
-                            text = "UserName/Email Here",
+                            text = "Enter your email Here",
                             color = Color.LightGray
                         )
                     },
@@ -137,6 +137,9 @@ fun LoginComposable(modifier: Modifier, navController: NavHostController) {
                     )
                 )
                 OutlinedTextField(
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Password
+                    ),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(10.dp),
@@ -168,6 +171,17 @@ fun LoginComposable(modifier: Modifier, navController: NavHostController) {
                         unfocusedIndicatorColor = colors.textColor,
                     )
                 )
+
+                TextButton(onClick = {
+                    isLogin = !isLogin
+                }) {
+                    Text(
+                        text = if(isLogin) "Don't have an account? Signup" else "Already have an account? Login",
+                        color = colors.textColor,
+                        fontSize = 15.sp
+                    )
+                }
+
                 Button(
                     colors = ButtonDefaults.buttonColors(
                         containerColor = colors.textColor,
@@ -175,15 +189,15 @@ fun LoginComposable(modifier: Modifier, navController: NavHostController) {
                     ),
                     modifier = Modifier.padding(10.dp),
                     onClick = {
-                        Toast.makeText(
-                            context,
-                            "Set creds are \n${userName}, ${password}",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        FireUtil.loginUser(userName, password, navController)
+                        if(isLogin) {
+                            FireUtil.loginUser(userName, password, navController)
+                        } else {
+
+                            FireUtil.createUser(userName, password, navController)
+                        }
                     }) {
                     Text(
-                        text = "LOGIN",
+                        text = if(isLogin) "LOGIN" else "SIGNUP",
                         fontSize = 14.sp
                     )
                 }
@@ -195,3 +209,11 @@ fun LoginComposable(modifier: Modifier, navController: NavHostController) {
 
     }
 }
+//
+//@Preview
+//@Composable
+//fun showAuth() {
+//    FireChatTheme() {
+//        AuthComposable()
+//    }
+//}

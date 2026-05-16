@@ -11,17 +11,14 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
 
-class FireViewModel: ViewModel() {
+class FireViewModel : ViewModel() {
     val _otherUser = MutableStateFlow<UserModel?>(null)
     val otherUser = _otherUser.asStateFlow()
 
     val _todaysQuote = MutableStateFlow<String?>(null)
     val quoteOfTheDay = _todaysQuote.asStateFlow()
 
-
-
     val _chatId = MutableStateFlow<String?>(null)
-
 
     val users = FireUtil.getUsers().stateIn(
         scope = viewModelScope,

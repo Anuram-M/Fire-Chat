@@ -152,8 +152,6 @@ fun HomeComposable(navController: NavHostController, viewModel: FireViewModel) {
                             textAlign = TextAlign.Center
                         )
                     }
-
-
                 }
             }
 
@@ -191,53 +189,65 @@ fun HomeComposable(navController: NavHostController, viewModel: FireViewModel) {
                         }
                     }
                 }
+                chats.isNotEmpty()
                 LazyColumn(modifier = Modifier.fillMaxWidth().padding(horizontal = 10.dp))  {
-                    items(chats) { chat ->
-                        var avatar = when{
-                            chat.avatarChoice == 1 -> R.drawable.satisfied256
-                            chat.avatarChoice == 2 -> R.drawable.icecrystal256
-                            chat.avatarChoice == 3 -> R.drawable.mask256
-                            else -> R.drawable.brightness256
-                        }
-                        Row(modifier = Modifier
-                            .fillMaxSize()
-                            .padding(vertical = 5.dp)
-                            .clickable {
-                                viewModel.updateChatItems(
-                                    UserModel(
-                                        userName = chat.userName,
-                                        avatarChoice = chat.avatarChoice,
-                                        uid = chat.receiverUserId,
-                                        fcmToken = ""
-                                    )
-                                )
-                                viewModel.setChatId(chatId = chat.chatId)
-                                navController.navigate("chat")
-                            },
-                            verticalAlignment = Alignment.CenterVertically) {
-                            Image(painter = painterResource(avatar), contentScale = ContentScale.Fit , modifier = Modifier
-                                .size(60.dp)
-                                .background(Color.Black, shape = CircleShape), contentDescription = null )
-                            Column(modifier = Modifier
-                                .fillMaxSize()
-                                .padding(10.dp)) {
-                                Text(
-                                    text = chat.userName,
-                                    fontSize = 15.sp,
-                                    fontFamily = firaFamily,
-                                    fontWeight = FontWeight.Bold,
-                                    color = colors.secondaryAccentColor
-                                )
-                                Text(
-                                    text = chat.lastMessage,
-                                    fontSize = 12.sp,
-                                    fontFamily = firaFamily,
-                                    color = colors.secondaryAccentColor,
-                                    fontWeight = FontWeight.Light
-                                )
+                        items(chats) { chat ->
+                            var avatar = when{
+                                chat.avatarChoice == 1 -> R.drawable.satisfied256
+                                chat.avatarChoice == 2 -> R.drawable.icecrystal256
+                                chat.avatarChoice == 3 -> R.drawable.mask256
+                                else -> R.drawable.brightness256
                             }
-                        }
+                            Row(modifier = Modifier
+                                .fillMaxSize()
+                                .padding(vertical = 5.dp)
+                                .clickable {
+                                    viewModel.updateChatItems(
+                                        UserModel(
+                                            userName = chat.userName,
+                                            avatarChoice = chat.avatarChoice,
+                                            uid = chat.receiverUserId,
+                                            fcmToken = ""
+                                        )
+                                    )
+                                    viewModel.setChatId(chatId = chat.chatId)
+                                    navController.navigate("chat")
+                                },
+                                verticalAlignment = Alignment.CenterVertically) {
+                                Image(painter = painterResource(avatar), contentScale = ContentScale.Fit , modifier = Modifier
+                                    .size(60.dp)
+                                    .background(Color.Black, shape = CircleShape), contentDescription = null )
+                                Column(modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(10.dp)) {
+                                    Text(
+                                        text = chat.userName,
+                                        fontSize = 15.sp,
+                                        fontFamily = firaFamily,
+                                        fontWeight = FontWeight.Bold,
+                                        color = colors.secondaryAccentColor
+                                    )
+                                    Text(
+                                        text = chat.lastMessage,
+                                        fontSize = 12.sp,
+                                        fontFamily = firaFamily,
+                                        color = colors.secondaryAccentColor,
+                                        fontWeight = FontWeight.Light
+                                    )
+                                }
+                            }
 
+                        }
+                    }
+                    ?:
+
+                chats.isEmpty().let {
+                    Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
+                        Text(
+                            modifier = Modifier.fillMaxWidth(),
+                            textAlign = TextAlign.Center,
+                            text = "No Chats available!"
+                        )
                     }
                 }
 
