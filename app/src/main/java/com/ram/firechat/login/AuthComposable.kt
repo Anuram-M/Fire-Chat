@@ -37,9 +37,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.ram.firechat.ui.theme.firaFamily
-import com.ram.firechat.util.UXUtil
 import com.ram.firechat.util.FireUtil
 import com.ram.firechat.util.PreferenceUtil
+import com.ram.firechat.util.UXUtil
 import com.ram.firechat.viewmodel.FireViewModel
 
 @Composable
@@ -201,19 +201,7 @@ fun AuthComposable(
                         fontSize = 14.sp
                     )
                 }
-
             }
-
-
         }
-
     }
 }
-//
-//@Preview
-//@Composable
-//fun showAuth() {
-//    FireChatTheme() {
-//        AuthComposable()
-//    }
-//}

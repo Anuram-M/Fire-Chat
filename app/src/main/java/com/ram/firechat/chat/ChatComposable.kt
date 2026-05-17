@@ -50,8 +50,8 @@ import androidx.navigation.NavController
 import com.ram.firechat.R
 import com.ram.firechat.ui.theme.almostBlack
 import com.ram.firechat.ui.theme.firaFamily
-import com.ram.firechat.util.UXUtil
 import com.ram.firechat.util.FireUtil
+import com.ram.firechat.util.UXUtil
 import com.ram.firechat.viewmodel.FireViewModel
 import kotlinx.coroutines.launch
 
@@ -69,7 +69,7 @@ fun ChatComposable(navController: NavController, viewModel: FireViewModel) {
     var txt by remember {
         mutableStateOf("")
     }
-    var avatar = when{
+    val avatar = when {
         user?.avatarChoice == 1 -> R.drawable.satisfied256
         user?.avatarChoice == 2 -> R.drawable.icecrystal256
         user?.avatarChoice == 3 -> R.drawable.mask256
@@ -78,13 +78,15 @@ fun ChatComposable(navController: NavController, viewModel: FireViewModel) {
     val listState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
     LaunchedEffect(chatmessage) {
-        if(chatmessage.isNotEmpty()) {
+        if (chatmessage.isNotEmpty()) {
             listState.animateScrollToItem(chatmessage.size - 1)
         }
     }
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .background(almostBlack))
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(almostBlack)
+    )
 
     Scaffold(
         topBar = {
@@ -137,9 +139,9 @@ fun ChatComposable(navController: NavController, viewModel: FireViewModel) {
                         modifier = Modifier
                             .fillMaxWidth()
                             .onFocusChanged { focusState ->
-                                if(focusState.hasFocus) {
+                                if (focusState.hasFocus) {
                                     coroutineScope.launch {
-                                        if(chatmessage.isNotEmpty()) {
+                                        if (chatmessage.isNotEmpty()) {
                                             listState.animateScrollToItem(chatmessage.size - 1)
                                         }
                                     }
@@ -227,7 +229,7 @@ fun ChatComposable(navController: NavController, viewModel: FireViewModel) {
                                 }
                             }
                         }
-                        items(msgs, key = {it.time}) {
+                        items(msgs, key = { it.time }) {
                             Column {
                                 if (it.senderId != currentUser?.uid) {
                                     Box(

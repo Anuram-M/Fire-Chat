@@ -1,8 +1,6 @@
 package com.ram.firechat.service
 
 import android.annotation.SuppressLint
-import android.app.NotificationManager
-import android.content.Context
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat

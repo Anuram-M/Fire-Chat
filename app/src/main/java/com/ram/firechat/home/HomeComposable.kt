@@ -49,9 +49,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.ram.firechat.R
 import com.ram.firechat.model.UserModel
 import com.ram.firechat.ui.theme.firaFamily
-import com.ram.firechat.util.UXUtil
 import com.ram.firechat.util.FireUtil
 import com.ram.firechat.util.PreferenceUtil
+import com.ram.firechat.util.UXUtil
 import com.ram.firechat.viewmodel.FireViewModel
 
 @Composable
@@ -59,8 +59,6 @@ fun HomeComposable(navController: NavHostController, viewModel: FireViewModel) {
     val users by viewModel.users.collectAsState()
 
     val chats by viewModel.chats.collectAsState()
-
-    val currentUser by viewModel.currentUser.collectAsState()
 
     val quote by viewModel.quoteOfTheDay.collectAsState()
 
@@ -190,11 +188,12 @@ fun HomeComposable(navController: NavHostController, viewModel: FireViewModel) {
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .background(shape = RoundedCornerShape(10.dp), color = Color.Black)
-                                .padding(10.dp)
-                            , contentAlignment = Alignment.Center
+                                .padding(10.dp), contentAlignment = Alignment.Center
                         ) {
                             Column(
-                                modifier = Modifier.fillMaxWidth().padding(10.dp),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(10.dp),
                                 horizontalAlignment = Alignment.CenterHorizontally,
                                 verticalArrangement = Arrangement.Center
                             ) {
@@ -237,7 +236,7 @@ fun HomeComposable(navController: NavHostController, viewModel: FireViewModel) {
                             .padding(horizontal = 10.dp)
                     ) {
                         items(chats) { chat ->
-                            var avatar = when {
+                            val avatar = when {
                                 chat.avatarChoice == 1 -> R.drawable.satisfied256
                                 chat.avatarChoice == 2 -> R.drawable.icecrystal256
                                 chat.avatarChoice == 3 -> R.drawable.mask256
@@ -302,8 +301,6 @@ fun HomeComposable(navController: NavHostController, viewModel: FireViewModel) {
                         )
                     }
             }
-
         }
     }
-
 }

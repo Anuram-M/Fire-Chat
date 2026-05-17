@@ -91,7 +91,6 @@ fun SetUserNameComposable(navController: NavController) {
             modifier = Modifier
                 .fillMaxSize()
                 .background(colors.primaryAccentColor)
-//                .systemBarsPadding()
                 .padding(bottom = 50.dp), contentAlignment = Alignment.Center
         ) {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomEnd) {
@@ -259,8 +258,6 @@ fun SetUserNameComposable(navController: NavController) {
             }
         }
     }
-
-
 }
 
 @Preview
